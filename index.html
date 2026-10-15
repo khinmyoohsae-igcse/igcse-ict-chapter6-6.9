@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGCSE ICT - Computers in Retail & Internet Shopping Quiz (25 MCQs)</title>
+    <style>
+        :root {
+            --bg-main: #090d16;
+            --bg-card: #131d31;
+            --border-color: #223354;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        header h1 {
+            color: var(--accent);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .quiz-status {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .score-pill {
+            background-color: #0c4a6e;
+            color: #7dd3fc;
+            padding: 0.35rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #0284c7;
+        }
+
+        .card {
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background-color: #1e293b;
+            color: var(--text-main);
+            padding: 1rem 1.25rem;
+            border-radius: 0.85rem;
+            border: 1px solid #334155;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #283548;
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: #064e3b !important;
+            border-color: #059669 !important;
+            color: #ecfdf5 !important;
+        }
+
+        .option-btn.incorrect {
+            background-color: #7f1d1d !important;
+            border-color: #dc2626 !important;
+            color: #fee2e2 !important;
+        }
+
+        .feedback-box {
+            padding: 1.15rem;
+            border-radius: 0.85rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .feedback-box.correct-feedback {
+            background-color: #022c22;
+            border: 1px solid #047857;
+            color: #a7f3d0;
+        }
+
+        .feedback-box.incorrect-feedback {
+            background-color: #450a0a;
+            border: 1px solid #b91c1c;
+            color: #fecdd3;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #0f172a;
+            font-weight: 700;
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.85rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .results-card {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .results-card h2 {
+            font-size: 2.25rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .results-card p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IGCSE ICT Practice Quiz</h1>
+        <p>Topics 6.9 & 6.9.2 Computers in Retail & Internet Shopping (25 MCQs)</p>
+    </header>
+
+    <main>
+        <div class="quiz-status">
+            <span id="question-counter">Question 1 of 25</span>
+            <span id="score-display" class="score-pill">Score: 0</span>
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quiz-container" class="card">
+            <div id="question-box" class="question-text">
+                Loading question...
+            </div>
+
+            <div id="options-container" class="options-list">
+                <!-- Options populated dynamically -->
+            </div>
+
+            <div id="feedback-box" class="feedback-box hidden">
+                <!-- Feedback populated dynamically -->
+            </div>
+
+            <div style="display: flex; justify-content: flex-end;">
+                <button id="next-btn" onclick="nextQuestion()" class="btn-primary hidden">Next Question</button>
+            </div>
+        </div>
+
+        <!-- Results Container -->
+        <div id="results-container" class="card results-card hidden">
+            <h2>Quiz Completed! 🎉</h2>
+            <p id="final-score">You scored X out of 25</p>
+            <button onclick="restartQuiz()" class="btn-primary">Restart Quiz</button>
+        </div>
+    </main>
+
+    <footer>
+        IGCSE ICT Revision &bull; Retail Industry & Internet Shopping
+    </footer>
+
+    <script>
+        const questions = [
+            {
+                question: "What is a Point of Sale (POS) terminal in a retail store?",
+                options: [
+                    { text: "A computerized checkout station used to record retail sales, process customer payments, and update stock databases instantly", isCorrect: true, rationale: "POS terminals handle checkout transactions, payment processing, and real-time inventory adjustments." },
+                    { text: "A machine used for printing paper books and magazines in publishing houses", isCorrect: false, rationale: "This describes industrial printing presses." },
+                    { text: "A physical filing cabinet for storing paper store receipts", isCorrect: false, rationale: "POS systems are digital computer terminals, not furniture." },
+                    { text: "A wireless network router connecting local area networks", isCorrect: false, rationale: "This describes network routing hardware." }
+                ]
+            },
+            {
+                question: "What is a barcode, and how is it read at a supermarket checkout?",
+                options: [
+                    { text: "A series of dark and light parallel vertical lines representing data that is scanned optically using a barcode reader (laser or CCD scanner)", isCorrect: true, rationale: "Barcodes encode product numbers read optically by barcode scanners at checkout." },
+                    { text: "A magnetic tape reel used for storing financial database backups", isCorrect: false, rationale: "This describes magnetic tape storage." },
+                    { text: "A computer virus program that infects checkout computers", isCorrect: false, rationale: "Barcodes are optical data symbols, not malicious software." },
+                    { text: "A mechanical key used to lock store cash registers", isCorrect: false, rationale: "This is physical key locks." }
+                ]
+            },
+            {
+                question: "What information is typically encoded directly into a product barcode (such as EAN-13)?",
+                options: [
+                    { text: "Manufacturer identification code and product item number (which the POS computer uses to look up item details and price in the stock database)", isCorrect: true, rationale: "Barcodes store product lookup numbers rather than item prices directly, allowing easy price updates in the database." },
+                    { text: "The customer's home address and credit card PIN password", isCorrect: false, rationale: "Barcodes identify products, not customer private financial data." },
+                    { text: "The exact room temperature inside the supermarket warehouse", isCorrect: false, rationale: "This is environmental sensor monitoring." },
+                    { text: "The weather forecast for the upcoming week", isCorrect: false, rationale: "This is meteorological data." }
+                ]
+            },
+            {
+                question: "What happens in the stock database when a product barcode is scanned at a retail checkout POS?",
+                options: [
+                    { text: "The stock level (quantity in stock) for that item is automatically decreased by one, and product details/price are retrieved", isCorrect: true, rationale: "Scanning an item automatically triggers a database query for price and decrements inventory levels in real-time." },
+                    { text: "The stock level for that item is automatically increased by one hundred", isCorrect: false, rationale: "Sales decrease stock levels, whereas deliveries increase them." },
+                    { text: "The computer system shuts down permanently", isCorrect: false, rationale: "Systems remain operational for continuous checkouts." },
+                    { text: "The item is permanently deleted from the database product catalog", isCorrect: false, rationale: "Product catalogs remain active even when stock reaches zero." }
+                ]
+            },
+            {
+                question: "What is automatic stock reordering in a computerized retail system?",
+                options: [
+                    { text: "When stock levels fall below a pre-set 'reorder level', the system automatically generates a purchase order to the supplier for more stock", isCorrect: true, rationale: "Automated reordering prevents stores from running out of popular items by ordering stock when inventory drops below threshold limits." },
+                    { text: "When customers manually return items to store shelves", isCorrect: false, rationale: "This describes customer returns, not automated purchasing." },
+                    { text: "When cashiers physically count store inventory using pocket calculators", isCorrect: false, rationale: "This describes manual stock auditing." },
+                    { text: "When the store manager turns off store lights at closing time", isCorrect: false, rationale: "This is facility management." }
+                ]
+            },
+            {
+                question: "What is a stock control database and what key fields does it typically contain?",
+                options: [
+                    { text: "A database tracking inventory containing fields like Barcode/SKU, Product Name, Unit Price, Quantity in Stock, Reorder Level, and Supplier ID", isCorrect: true, rationale: "Stock databases maintain comprehensive inventory fields to monitor stock levels and pricing accurately." },
+                    { text: "A database storing student exam grades and attendance records", isCorrect: false, rationale: "This describes a School Management System database." },
+                    { text: "A database storing patient hospital medical prescriptions", isCorrect: false, rationale: "This describes medical EHR databases." },
+                    { text: "A database tracking flight departure times", isCorrect: false, rationale: "This describes travel booking databases." }
+                ]
+            },
+            {
+                question: "What is RFID (Radio Frequency Identification) and how is it used in retail inventory management?",
+                options: [
+                    { text: "A wireless technology using radio waves to read data from tags attached to items, allowing multiple items to be scanned simultaneously without line-of-sight", isCorrect: true, rationale: "RFID tags allow rapid automated stock auditing and tracking compared to scanning individual barcodes manually." },
+                    { text: "A heavy copper Ethernet cable used for connecting checkout registers", isCorrect: false, rationale: "RFID is wireless, not a wired copper cable." },
+                    { text: "An optical flatbed scanner for digitizing paper documents", isCorrect: false, rationale: "This describes document scanning." },
+                    { text: "A magnetic tape archiving reel", isCorrect: false, rationale: "This is backing storage." }
+                ]
+            },
+            {
+                question: "What are the advantages of computerized stock control systems for retail businesses?",
+                options: [
+                    { text: "Prevents overstocking and understocking, automated reordering, accurate sales tracking, faster checkout times, and reduced human counting errors", isCorrect: true, rationale: "Computerized inventory management streamlines retail operations, lowers holding costs, and eliminates manual stock errors." },
+                    { text: "Eliminates all store employees so no staff are ever needed", isCorrect: false, rationale: "Retail stores still require customer service and warehouse staff." },
+                    { text: "Requires zero electrical power or computer hardware", isCorrect: false, rationale: "Database systems require computers and electricity." },
+                    { text: "Guarantees that shoplifting and theft become physically impossible", isCorrect: false, rationale: "While security tags help, computer inventory systems do not completely prevent theft." }
+                ]
+            },
+            {
+                question: "What is Internet Shopping (E-commerce)?",
+                options: [
+                    { text: "Buying and selling goods and services over the internet using web browsers and secure online payment gateways", isCorrect: true, rationale: "E-commerce enables customers to purchase products online 24/7 from global retailers." },
+                    { text: "Visiting physical shopping malls in person during weekend sales", isCorrect: false, rationale: "This describes traditional physical high-street shopping." },
+                    { text: "Browsing paper mail-order product catalogs", isCorrect: false, rationale: "This describes legacy mail-order shopping." },
+                    { text: "Calling department stores using landline telephones", isCorrect: false, rationale: "This describes telephone ordering." }
+                ]
+            },
+            {
+                question: "What are the advantages of internet shopping for customers?",
+                options: [
+                    { text: "Available 24/7 from home, easy price comparison across multiple websites, wider choice of global goods, and home delivery convenience", isCorrect: true, rationale: "Online shopping offers unmatched convenience, global choice, and easy price comparisons round-the-clock." },
+                    { text: "Immediate physical receipt of goods the exact second the 'buy' button is clicked", isCorrect: false, rationale: "Physical items require shipping delivery time." },
+                    { text: "Absolute physical impossibility of website security breaches", isCorrect: false, rationale: "Online sites require robust encryption to prevent security threats." },
+                    { text: "Mandatory requirement to pay cash on delivery", isCorrect: false, rationale: "Online payments use electronic payment gateways (credit cards, digital wallets)." }
+                ]
+            },
+            {
+                question: "What are the disadvantages or risks of internet shopping for customers?",
+                options: [
+                    { text: "Inability to physically touch or inspect goods before buying, shipping delivery delays, risk of online fraud/phishing, and potential return shipping hassles", isCorrect: true, rationale: "Online shoppers cannot inspect items physically beforehand and face shipping wait times and potential online scams." },
+                    { text: "Stores are open only on Tuesdays between 2 AM and 4 AM", isCorrect: false, rationale: "Online shops are open 24/7." },
+                    { text: "Internet shopping requires visiting physical malls in heavy traffic", isCorrect: false, rationale: "Online shopping takes place from home." },
+                    { text: "Products purchased online cost zero money", isCorrect: false, rationale: "E-commerce items require full purchase payment." }
+                ]
+            },
+            {
+                question: "What are the advantages of internet shopping for businesses (retailers)?",
+                options: [
+                    { text: "Global market reach open 24/7, lower physical store overhead costs (no need for high-street retail shops), and automated stock/sales database management", isCorrect: true, rationale: "E-commerce broadens customer reach globally while reducing expensive high-street retail rental costs." },
+                    { text: "Complete elimination of all computer servers and IT staff", isCorrect: false, rationale: "E-commerce requires robust web servers and IT maintenance." },
+                    { text: "Requirement to close company websites every weekend", isCorrect: false, rationale: "Websites operate continuously." },
+                    { text: "Zero ability to track online sales analytics", isCorrect: false, rationale: "Databases track online transactions and customer analytics in detail." }
+                ]
+            },
+            {
+                question: "What are the disadvantages or challenges of internet shopping for businesses?",
+                options: [
+                    { text: "High competition from global rivals, cybersecurity threats and server downtime risks, complex logistics of managing home delivery returns, and web development costs", isCorrect: true, rationale: "Retailers face intense online competition, shipping return logistics complexities, and cybersecurity threats." },
+                    { text: "Physical shoplifting of clothes inside virtual web pages", isCorrect: false, rationale: "Shoplifting occurs in physical stores, whereas online retail faces digital fraud and cyber threats." },
+                    { text: "Requirement for customers to pick up orders using horse-drawn carriages", isCorrect: false, rationale: "Deliveries use postal and courier logistics networks." },
+                    { text: "Inability to sell more than one item per year", isCorrect: true.split()[0] === 'false' && true, rationale: "E-commerce platforms scale sales volume globally." }
+                ]
+            },
+            {
+                question: "What security measures must e-commerce websites implement during online checkout transactions?",
+                options: [
+                    { text: "Secure Sockets Layer / Transport Layer Security (SSL/TLS encryption via HTTPS), secure payment gateways, and tokenization to protect credit card details", isCorrect: true, rationale: "HTTPS encryption and secure payment gateways protect sensitive customer financial data from cyber interceptors." },
+                    { text: "Writing credit card numbers on paper postcards sent by mail", isCorrect: false, rationale: "This is insecure and obsolete." },
+                    { text: "Storing unencrypted passwords in public text files", isCorrect: false, rationale: "Plaintext storage violates security standards." },
+                    { text: "Using unencrypted HTTP web connections", isCorrect: false, rationale: "HTTP is insecure; HTTPS is mandatory for financial checkout." }
+                ]
+            },
+            {
+                question: "What is 'click and collect' (Buy Online, Pick Up In Store - BOPIS) in modern retail?",
+                options: [
+                    { text: "A hybrid retail model where customers purchase items online via a website or app and collect them physically from a local bricks-and-mortar store", isCorrect: true, rationale: "Click and collect bridges e-commerce convenience with physical store pickup, saving shipping fees for customers." },
+                    { text: "Ordering items by mail and collecting them at airport customs", isCorrect: false, rationale: "This is international import shipping." },
+                    { text: "Scanning supermarket barcodes at self-checkout tills", isCorrect: false, rationale: "This is in-store checkout scanning." },
+                    { text: "Printing paper receipts on dot-matrix printers", isCorrect: false, rationale: "This is receipt printing." }
+                ]
+            },
+            {
+                question: "How do loyalty card schemes benefit retail businesses using computerized customer databases?",
+                options: [
+                    { text: "They allow retailers to track customer purchasing habits, build consumer profiles, offer targeted discounts, and analyze shopping trends to boost sales", isCorrect: true, rationale: "Loyalty databases capture customer buying patterns, enabling personalized marketing and targeted promotions." },
+                    { text: "They allow customers to hack into the store's bank accounts", isCorrect: false, rationale: "Loyalty cards track reward points, not bank account hacking." },
+                    { text: "They make all store products completely free of charge", isCorrect: false, rationale: "Loyalty cards accumulate points for discounts, they do not make items free." },
+                    { text: "They function as computer virus protection software", isCorrect: false, rationale: "This is anti-malware software." }
+                ]
+            },
+            {
+                question: "What is Electronic Funds Transfer at Point of Sale (EFTPOS)?",
+                options: [
+                    { text: "An electronic payment system that allows customers to pay for goods directly at checkout using debit or credit cards via secure bank networks", isCorrect: true, rationale: "EFTPOS terminals transfer funds instantly from customer bank accounts to retailer accounts during checkout." },
+                    { text: "Sending paper letters through postal mail services", isCorrect: false, rationale: "This is postal mailing." },
+                    { text: "Counting physical metal coins inside cash register drawers", isCorrect: false, rationale: "This is cash handling." },
+                    { text: "Storing backup files on magnetic tape reels", isCorrect: false, rationale: "This is storage media." }
+                ]
+            },
+            {
+                question: "Why do online shopping websites use cookies to track user browsing behavior?",
+                options: [
+                    { text: "To remember user login sessions, store shopping cart items, track browsing preferences, and provide personalized product recommendations", isCorrect: true, rationale: "Cookies store session and preference data to maintain shopping carts and personalize user experiences." },
+                    { text: "To bake actual chocolate chip cookies in office kitchen ovens", isCorrect: false, rationale: "Browser cookies are text data files, not baked food." },
+                    { text: "To delete the computer's operating system files", isCorrect: false, rationale: "Cookies do not delete system files." },
+                    { text: "To increase internet download broadband speeds", isCorrect: false, rationale: "Cookies have no impact on network bandwidth." }
+                ]
+            },
+            {
+                question: "What is 'dropshipping' in modern e-commerce retail models?",
+                options: [
+                    { text: "A retail fulfillment method where a store doesn't keep products in stock; instead, when a customer buys an item, the store purchases it from a third-party supplier who ships it directly to the customer", isCorrect: true, rationale: "Dropshipping eliminates the need for retailers to hold physical inventory warehousing." },
+                    { text: "Dropping fragile packages from airplanes onto customer rooftops", isCorrect: false, rationale: "This is dangerous and fictional delivery." },
+                    { text: "Throwing damaged products into garbage dumpsters", isCorrect: false, rationale: "This is waste disposal." },
+                    { text: "Returning unwanted items to high-street shops", isCorrect: false, rationale: "This is a standard retail return." }
+                ]
+            },
+            {
+                question: "How do automated warehouse robotics and inventory sorting systems assist large online retailers (like Amazon)?",
+                options: [
+                    { text: "Autonomous mobile robots retrieve product shelves and transport items across fulfillment centers, speeding up order packing and dispatch", isCorrect: true, rationale: "Warehouse robots accelerate order fulfillment by automating item retrieval and sorting." },
+                    { text: "Robots write software code for website databases", isCorrect: false, rationale: "Software code is written by human programmers." },
+                    { text: "Robots act as human customer service phone operators", isCorrect: true.split()[0] === 'false' && true, rationale: "Robots handle physical warehouse stock movement rather than phone support." },
+                    { text: "Robots print paper mail-order catalogs by hand", isCorrect: false, rationale: "Catalogs are printed on industrial presses." }
+                ]
+            },
+            {
+                question: "What is a secure payment gateway in e-commerce websites?",
+                options: [
+                    { text: "A third-party software service that authorizes and securely processes credit card or digital wallet payments between the customer, merchant, and banks", isCorrect: true, rationale: "Payment gateways encrypt and process online financial transactions securely during checkout." },
+                    { text: "A physical metal gate outside a warehouse entrance", isCorrect: false, rationale: "This describes physical security gates." },
+                    { text: "A network firewall protecting office routers", isCorrect: false, rationale: "This describes network security firewalls." },
+                    { text: "A barcode scanner used at checkout tills", isCorrect: false, rationale: "This is retail POS." }
+                ]
+            },
+            {
+                question: "What role do customer reviews and ratings play on e-commerce shopping websites?",
+                options: [
+                    { text: "They provide peer feedback on product quality and reliability, building consumer trust and influencing online purchasing decisions", isCorrect: true, rationale: "Reviews influence buyer trust and conversion rates on e-commerce platforms." },
+                    { text: "They serve as computer virus code that infects user web browsers", isCorrect: false, rationale: "Reviews consist of text feedback and star ratings, not malware." },
+                    { text: "They calculate shipping delivery distances", isCorrect: false, rationale: "Shipping distance is calculated by courier logistics APIs." },
+                    { text: "They format spreadsheet inventory tables", isCorrect: false, rationale: "This is spreadsheet modeling." }
+                ]
+            },
+            {
+                question: "Why do online retailers use recommendation algorithms (e.g., 'Customers who bought this also bought...')?",
+                    options: [
+                    { text: "To analyze customer browsing and purchase history to suggest relevant additional products, increasing cross-selling and total sales revenue", isCorrect: true, rationale: "Recommendation engines boost sales by suggesting complementary items based on purchase patterns." },
+                    { text: "To confuse customers so they cannot find what they want", isCorrect: false, rationale: "Recommendations are designed to assist buyers and increase sales." },
+                    { text: "To delete old shopping cart items automatically", isCorrect: false, rationale: "This is cart management." },
+                    { text: "To lock user accounts for security reasons", isCorrect: false, rationale: "This is account security locking." }
+                ]
+            },
+            {
+                question: "What is inventory shrinkage in retail store management?",
+                options: [
+                    { text: "The loss of inventory resulting from shoplifting, employee theft, administrative errors, or supplier fraud", isCorrect: true, rationale: "Inventory shrinkage represents missing stock where physical inventory counts do not match stock control database records." },
+                    { text: "When clothing items shrink in hot washing machine cycles", isCorrect: false, rationale: "This is textile laundering shrinkage, not retail inventory loss." },
+                    { text: "When computer monitors reduce physical screen resolution", isCorrect: false, rationale: "This is display resolution scaling." },
+                    { text: "When database file sizes decrease during compression", isCorrect: false, rationale: "This is file compression." }
+                ]
+            },
+            {
+                question: "Which summary best encapsulates 6.9 / 6.9.2 Computers in the Retail Industry and Internet Shopping in IGCSE ICT?",
+                options: [
+                    { text: "Computers revolutionize retail and e-commerce through POS terminals, barcode/RFID stock control databases, automated reordering, EFTPOS payments, secure SSL online shopping platforms, and warehouse robotics, balancing global convenience with cybersecurity and logistics challenges", isCorrect: true, rationale: "Retail and e-commerce rely on computerized POS, automated stock control, EFTPOS, and secure web platforms to manage sales and inventory." },
+                    { text: "Computers in retail are manual paper cash registers used exclusively by high-street shop assistants", isCorrect: false, rationale: "Modern retail relies on computerized POS and stock databases." },
+                    { text: "Computers in retail require no database management or payment security", isCorrect: false, rationale: "Databases and checkout payment security are mandatory." },
+                    { text: "Computers in retail are identical to offline video game consoles", isCorrect: false, rationale: "Retail systems process commercial sales, not gaming." }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        const questionCounter = document.getElementById("question-counter");
+        const scoreDisplay = document.getElementById("score-display");
+        const questionBox = document.getElementById("question-box");
+        const optionsContainer = document.getElementById("options-container");
+        const feedbackBox = document.getElementById("feedback-box");
+        const nextBtn = document.getElementById("next-btn");
+        const quizContainer = document.getElementById("quiz-container");
+        const resultsContainer = document.getElementById("results-container");
+        const finalScore = document.getElementById("final-score");
+
+        function loadQuestion() {
+            answered = false;
+            feedbackBox.classList.add("hidden");
+            nextBtn.classList.add("hidden");
+            
+            const q = questions[currentQuestionIndex];
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            scoreDisplay.textContent = `Score: ${score}`;
+            questionBox.textContent = q.question;
+
+            // Shuffle options array randomly so correct answer is not always first
+            let shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+
+            optionsContainer.innerHTML = "";
+            shuffledOptions.forEach((opt) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.textContent = opt.text;
+                btn.onclick = () => selectOption(opt, shuffledOptions);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedOpt, shuffledOptions) {
+            if (answered) return;
+            answered = true;
+
+            const allOptionButtons = optionsContainer.children;
+
+            shuffledOptions.forEach((opt, idx) => {
+                allOptionButtons[idx].disabled = true;
+                if (opt.isCorrect) {
+                    allOptionButtons[idx].classList.add("correct");
+                } else if (opt === selectedOpt && !selectedOpt.isCorrect) {
+                    allOptionButtons[idx].classList.add("incorrect");
+                }
+            });
+
+            feedbackBox.classList.remove("hidden");
+            if (selectedOpt.isCorrect) {
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                feedbackBox.className = "feedback-box correct-feedback";
+                feedbackBox.innerHTML = `<strong>Correct!</strong> ${selectedOpt.rationale}`;
+            } else {
+                feedbackBox.className = "feedback-box incorrect-feedback";
+                feedbackBox.innerHTML = `<strong>Incorrect.</strong> ${selectedOpt.rationale}`;
+            }
+
+            if (currentQuestionIndex < questions.length - 1) {
+                nextBtn.textContent = "Next Question";
+            } else {
+                nextBtn.textContent = "View Results";
+            }
+            nextBtn.classList.remove("hidden");
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                quizContainer.classList.add("hidden");
+                resultsContainer.classList.remove("hidden");
+                finalScore.textContent = `You scored ${score} out of ${questions.length}`;
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            resultsContainer.classList.add("hidden");
+            quizContainer.classList.remove("hidden");
+            loadQuestion();
+        }
+
+        // Initialize quiz on load
+        loadQuestion();
+    </script>
+</body>
+</html>
