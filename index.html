@@ -372,7 +372,7 @@
                     { text: "High competition from global rivals, cybersecurity threats and server downtime risks, complex logistics of managing home delivery returns, and web development costs", isCorrect: true, rationale: "Retailers face intense online competition, shipping return logistics complexities, and cybersecurity threats." },
                     { text: "Physical shoplifting of clothes inside virtual web pages", isCorrect: false, rationale: "Shoplifting occurs in physical stores, whereas online retail faces digital fraud and cyber threats." },
                     { text: "Requirement for customers to pick up orders using horse-drawn carriages", isCorrect: false, rationale: "Deliveries use postal and courier logistics networks." },
-                    { text: "Inability to sell more than one item per year", isCorrect: true.split()[0] === 'false' && true, rationale: "E-commerce platforms scale sales volume globally." }
+                    { text: "Inability to sell more than one item per year", isCorrect: false, rationale: "E-commerce platforms scale sales volume globally." }
                 ]
             },
             {
@@ -434,7 +434,7 @@
                 options: [
                     { text: "Autonomous mobile robots retrieve product shelves and transport items across fulfillment centers, speeding up order packing and dispatch", isCorrect: true, rationale: "Warehouse robots accelerate order fulfillment by automating item retrieval and sorting." },
                     { text: "Robots write software code for website databases", isCorrect: false, rationale: "Software code is written by human programmers." },
-                    { text: "Robots act as human customer service phone operators", isCorrect: true.split()[0] === 'false' && true, rationale: "Robots handle physical warehouse stock movement rather than phone support." },
+                    { text: "Robots act as human customer service phone operators", isCorrect: false, rationale: "Robots handle physical warehouse stock movement rather than phone support." },
                     { text: "Robots print paper mail-order catalogs by hand", isCorrect: false, rationale: "Catalogs are printed on industrial presses." }
                 ]
             },
@@ -458,7 +458,7 @@
             },
             {
                 question: "Why do online retailers use recommendation algorithms (e.g., 'Customers who bought this also bought...')?",
-                    options: [
+                options: [
                     { text: "To analyze customer browsing and purchase history to suggest relevant additional products, increasing cross-selling and total sales revenue", isCorrect: true, rationale: "Recommendation engines boost sales by suggesting complementary items based on purchase patterns." },
                     { text: "To confuse customers so they cannot find what they want", isCorrect: false, rationale: "Recommendations are designed to assist buyers and increase sales." },
                     { text: "To delete old shopping cart items automatically", isCorrect: false, rationale: "This is cart management." },
@@ -479,8 +479,8 @@
                 options: [
                     { text: "Computers revolutionize retail and e-commerce through POS terminals, barcode/RFID stock control databases, automated reordering, EFTPOS payments, secure SSL online shopping platforms, and warehouse robotics, balancing global convenience with cybersecurity and logistics challenges", isCorrect: true, rationale: "Retail and e-commerce rely on computerized POS, automated stock control, EFTPOS, and secure web platforms to manage sales and inventory." },
                     { text: "Computers in retail are manual paper cash registers used exclusively by high-street shop assistants", isCorrect: false, rationale: "Modern retail relies on computerized POS and stock databases." },
-                    { text: "Computers in retail require no database management or payment security", isCorrect: false, rationale: "Databases and checkout payment security are mandatory." },
-                    { text: "Computers in retail are identical to offline video game consoles", isCorrect: false, rationale: "Retail systems process commercial sales, not gaming." }
+                    { text: "Computers in retail require no database management or digital security", isCorrect: false, rationale: "Database management, stock control, and cybersecurity are critical in modern retail IT." },
+                    { text: "Computers in retail are identical to offline video game consoles", isCorrect: false, rationale: "Retail IT systems manage commercial transactions and supply chains." }
                 ]
             }
         ];
@@ -499,6 +499,19 @@
         const resultsContainer = document.getElementById("results-container");
         const finalScore = document.getElementById("final-score");
 
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // Shuffle questions order on load
+        shuffleArray(questions);
+
         function loadQuestion() {
             answered = false;
             feedbackBox.classList.add("hidden");
@@ -510,7 +523,8 @@
             questionBox.textContent = q.question;
 
             // Shuffle options array randomly so correct answer is not always first
-            let shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+            let shuffledOptions = [...q.options];
+            shuffleArray(shuffledOptions);
 
             optionsContainer.innerHTML = "";
             shuffledOptions.forEach((opt) => {
@@ -542,10 +556,11 @@
                 score++;
                 scoreDisplay.textContent = `Score: ${score}`;
                 feedbackBox.className = "feedback-box correct-feedback";
-                feedbackBox.innerHTML = `<strong>Correct!</strong> ${selectedOpt.rationale}`;
+                feedbackBox.innerHTML = `<strong>Correct! 🎉</strong> ${selectedOpt.rationale}`;
             } else {
                 feedbackBox.className = "feedback-box incorrect-feedback";
-                feedbackBox.innerHTML = `<strong>Incorrect.</strong> ${selectedOpt.rationale}`;
+                const correctOpt = questions[currentQuestionIndex].options.find(o => o.isCorrect);
+                feedbackBox.innerHTML = `<strong>Incorrect.</strong> ${selectedOpt.rationale}<br><br><em>Correct answer:</em> ${correctOpt.text}`;
             }
 
             if (currentQuestionIndex < questions.length - 1) {
@@ -570,6 +585,7 @@
         function restartQuiz() {
             currentQuestionIndex = 0;
             score = 0;
+            shuffleArray(questions);
             resultsContainer.classList.add("hidden");
             quizContainer.classList.remove("hidden");
             loadQuestion();
